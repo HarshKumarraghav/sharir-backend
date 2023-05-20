@@ -7,24 +7,16 @@ require go.mongodb.org/mongo-driver v1.11.6
 require (
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.1 // indirect
-	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/mock v1.6.0 // indirect
-	github.com/google/go-querystring v1.0.0 // indirect
-	github.com/gorilla/schema v1.1.0 // indirect
-	github.com/gorilla/securecookie v1.1.1 // indirect
-	github.com/gorilla/sessions v1.2.1 // indirect
 	github.com/leodido/go-urn v1.2.4 // indirect
-	github.com/segmentio/ksuid v1.0.4 // indirect
-	github.com/sfreiberg/gotwilio v1.0.0 // indirect
 )
 
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
-	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-playground/validator/v10 v10.13.0
-	github.com/gofiber/fiber/v2 v2.46.0 // indirect
+	github.com/gofiber/fiber/v2 v2.46.0
 	github.com/golang/snappy v0.0.1 // indirect
-	github.com/google/uuid v1.3.0 // indirect
+	github.com/google/uuid v1.3.0
 	github.com/joho/godotenv v1.5.1
 	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
