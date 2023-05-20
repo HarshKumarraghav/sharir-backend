@@ -69,6 +69,7 @@ func main() {
 	// connection to the MongoDB database. The resulting `userRepo` variable is then used to pass the user
 	// data to the authentication routes defined in the `routes` package.
 	userRepo := auth.NewRepo(db)
+	userSvc := auth.NewAuthService(userRepo.(*auth.Repo))
 	// `routes.CreatePhoneOtpRoutes(app)` is creating and registering HTTP routes related to phone OTP
 	// (One-Time Password) authentication in the Fiber application. It is passing the `app` instance of the
 	// Fiber application to the `CreatePhoneOtpRoutes` function, which will define and register the
@@ -80,7 +81,7 @@ func main() {
 	// `CreateAuthRoutes` function, which will define and register the necessary routes for user
 	// authentication. The `userRepo.(*auth.Repo)` syntax is used to convert the `userRepo` variable to a
 	// pointer to the `auth.Repo` struct type, which is required by the `CreateAuthRoutes` function.
-	routes.CreateAuthRoutes(app, userRepo.(*auth.Repo))
+	routes.CreateAuthRoutes(app, userRepo.(*auth.Repo), userSvc)
 	// `log.Panic(app.Listen(":" + os.Getenv("PORT")))` is starting the Fiber application and listening for
 	// incoming HTTP requests on the port specified in the `PORT` environment variable. If an error occurs
 	// while starting the application or listening for requests, the program will log the error and exit

@@ -213,6 +213,6 @@ func verifySMS() fiber.Handler {
 
 // The function creates two routes for sending and verifying phone OTPs in a Fiber app.
 func CreatePhoneOtpRoutes(app *fiber.App) {
-	app.Post("/sendotp", sendSMS())
-	app.Post("/verifyotp", verifySMS())
+	app.Post("/api/auth/sendotp", sendSMS())
+	app.Post("/api/auth/verifyotp", verifySMS())
 }
