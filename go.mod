@@ -15,6 +15,7 @@ require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/go-playground/validator/v10 v10.13.0
 	github.com/gofiber/fiber/v2 v2.46.0
+	github.com/gofiber/jwt/v3 v3.3.10
 	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/google/uuid v1.3.0
