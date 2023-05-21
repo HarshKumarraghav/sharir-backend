@@ -70,11 +70,8 @@ func main() {
 	// data to the authentication routes defined in the `routes` package.
 	userRepo := auth.NewRepo(db)
 	userSvc := auth.NewAuthService(userRepo.(*auth.Repo))
-	// `routes.CreatePhoneOtpRoutes(app)` is creating and registering HTTP routes related to phone OTP
-	// (One-Time Password) authentication in the Fiber application. It is passing the `app` instance of the
-	// Fiber application to the `CreatePhoneOtpRoutes` function, which will define and register the
-	// necessary routes for phone OTP authentication.
-	routes.CreatePhoneOtpRoutes(app)
+
+	routes.CreatePhoneOtpRoutes(app, userSvc)
 	// `routes.CreateAuthRoutes(app, userRepo.(*auth.Repo))` is creating and registering HTTP routes
 	// related to user authentication in the Fiber application. It is passing the `app` instance of the
 	// Fiber application and a pointer to the `auth.Repo` struct instance `userRepo` to the

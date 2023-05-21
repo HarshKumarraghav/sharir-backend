@@ -12,6 +12,11 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+type AuthBody struct {
+	PhoneNumber string `json:"phonenumber"`
+	Password    string `json:"password"`
+}
+
 // The above type is a struct representing a user with various fields such as ID, name, password, phone
 // number, profile picture, email, username, user type, and creation time.
 // @property {string} ID - A unique identifier for the user, typically stored as a string.

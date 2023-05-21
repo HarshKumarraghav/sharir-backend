@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"sharir/pkg/auth"
 	"time"
 
 	"github.com/go-playground/validator/v10"
@@ -189,11 +190,12 @@ func sendSMS() fiber.Handler {
 }
 
 // The function verifies an SMS OTP code using Twilio API and returns a success message.
-func verifySMS() fiber.Handler {
+func verifySMS(svc auth.Service) fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		_, cancel := context.WithTimeout(c.Context(), appTimeout)
 		defer cancel()
 		var payload VerifyData
+
 		if err := c.BodyParser(&payload); err != nil {
 			return err
 		}
@@ -201,18 +203,28 @@ func verifySMS() fiber.Handler {
 			User: payload.User,
 			Code: payload.Code,
 		}
-		err := twilioVerifyOTP(c, newData.User.PhoneNumber, newData.Code)
+		token, err := svc.LoginPhoneOtp(newData.User.PhoneNumber)
 		if err != nil {
 			errorJSON(c, err)
 			return err
 		}
-		writeJSON(c, http.StatusAccepted, "OTP verified successfully")
-		return nil
+
+		err = twilioVerifyOTP(c, newData.User.PhoneNumber, newData.Code)
+		if err != nil {
+			errorJSON(c, err)
+			return err
+		}
+		return c.JSON(fiber.Map{
+			"status":  http.StatusOK,
+			"message": "OTP verified successfully",
+			"token":   token,
+		})
+
 	}
 }
 
 // The function creates two routes for sending and verifying phone OTPs in a Fiber app.
-func CreatePhoneOtpRoutes(app *fiber.App) {
+func CreatePhoneOtpRoutes(app *fiber.App, svc auth.Service) {
 	app.Post("/api/auth/sendotp", sendSMS())
-	app.Post("/api/auth/verifyotp", verifySMS())
+	app.Post("/api/auth/verifyotp", verifySMS(svc))
 }

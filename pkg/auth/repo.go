@@ -21,6 +21,7 @@ type Repository interface {
 	Delete(string int) bool
 	ReadByID(id string) (User, error)
 	ReadByEmail(email string) (User, error)
+	ReadByPhoneNumber(phone string) (User, error)
 	ReadByUsernanme(username string) (User, error)
 }
 
@@ -39,6 +40,21 @@ type Repo struct {
 func (s *Repo) ReadByEmail(email string) (User, error) {
 	var user User
 	err := s.db.FindOne(s.context, bson.M{"email": email}).Decode(&user)
+	if err != nil {
+		return user, pkg.ErrUserNotFound
+	}
+	return user, nil
+}
+
+// This function is used to fetch a user from the database with their phone number. It takes in a phone
+// number string as a parameter and returns a User object and an error. It searches for a user in the
+// database with the given phone number using the FindOne method of the MongoDB collection. If a user
+// is found, it decodes the result into a User object and returns it. If no user is found, it returns
+// an error indicating that the user was not found.
+
+func (s *Repo) ReadByPhoneNumber(phone string) (User, error) {
+	var user User
+	err := s.db.FindOne(s.context, bson.M{"phonenumber": phone}).Decode(&user)
 	if err != nil {
 		return user, pkg.ErrUserNotFound
 	}
