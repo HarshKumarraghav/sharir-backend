@@ -138,7 +138,7 @@ var client *twilio.RestClient = twilio.NewRestClientWithParams(twilio.ClientPara
 })
 
 // The function sends an OTP (one-time password) to a phone number using Twilio's API.
-func twilioSendOTP(c *fiber.Ctx, phoneNumber string) (string, error) {
+func twilioSendOTP(phoneNumber string) (string, error) {
 	params := &twilioApi.CreateVerificationParams{}
 	params.SetTo(phoneNumber)
 	params.SetChannel("sms")
@@ -152,7 +152,7 @@ func twilioSendOTP(c *fiber.Ctx, phoneNumber string) (string, error) {
 }
 
 // The function verifies an OTP code sent to a phone number using Twilio API.
-func twilioVerifyOTP(c *fiber.Ctx, phoneNumber string, code string) error {
+func twilioVerifyOTP(phoneNumber string, code string) error {
 	params := &twilioApi.CreateVerificationCheckParams{}
 	params.SetTo(phoneNumber)
 	params.SetCode(code)
@@ -179,7 +179,7 @@ func sendSMS() fiber.Handler {
 		newData := OTPData{
 			PhoneNumber: payload.PhoneNumber,
 		}
-		_, err := twilioSendOTP(c, newData.PhoneNumber)
+		_, err := twilioSendOTP(newData.PhoneNumber)
 		if err != nil {
 			errorJSON(c, err)
 			return err
@@ -209,7 +209,7 @@ func verifySMS(svc auth.Service) fiber.Handler {
 			return err
 		}
 
-		err = twilioVerifyOTP(c, newData.User.PhoneNumber, newData.Code)
+		err = twilioVerifyOTP(newData.User.PhoneNumber, newData.Code)
 		if err != nil {
 			errorJSON(c, err)
 			return err
